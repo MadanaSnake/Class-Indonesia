@@ -1,0 +1,62 @@
+from time import sleep
+
+class Hero():
+    #konstruktor kelas
+    def __init__(self, name, health, armor, senjata):
+        self.name = name
+        self.health = health #angka
+        self.armor = armor #string
+        self.weapon = senjata #string
+    #mencetak parameter karakter
+    def print_info(self):
+        print('Nyawa:', self.health)
+        print('Senjata', self.weapon)
+        print('Armor:', self.armor, '\n')
+
+class Prajurit(Hero):    
+    def hello(self):
+        print('> Pendatang baru!. Seorang Prajurit yang berani datang dengan mobil. Bernama', self.name)
+        self.print_info()
+        sleep(4)
+
+    def serang(self, musuh):
+        print('> Kena! Prajurit Berani!', self.name, 'menyerang', musuh.name, 'Menggunakan', self.weapon)
+        musuh.armor -= 15
+        if musuh.armor < 0:
+            musuh.health += musuh.armor
+            musuh.armor = 0
+
+        print('Tembakan kuat terkena kepada musuh. \nSisa Shield = ' +
+            str(musuh.armor) + ', dan nyawa berkurang menjadi: ' + str(musuh.health) + '\n')
+        sleep(0.2)
+
+class Mage(Hero):    
+    def hello(self):
+        print('> Pendatang baru!. Seorang Mage yang ahli sihir. Bernama', self.name)
+        self.print_info()
+        sleep(0.2)
+
+    def serang(self, musuh):
+        print('> Kena! Mage Yang kuat!', self.name, 'menyerang', musuh.name, 'Menggunakan', self.weapon)
+        musuh.armor -= 30
+        if musuh.armor < 0:
+            musuh.health += musuh.armor
+            musuh.armor = 0
+
+        print('Sihir yang kuat terkena kepada musuh. \nSisa Shield = ' +
+            str(musuh.armor) + ', dan nyawa berkurang menjadi: ' + str(musuh.health) + '\n')
+        sleep(0.2)
+
+hero1 = Prajurit("Maxim",200,80,'M4A1')
+hero1.print_info()
+mage1 = Mage("Eudora",200,30,'Tongkat_kristal')
+mage1.print_info()
+while mage1.health != 0 or hero1.health != 0:
+    hero1.serang(mage1)
+    mage1.serang(hero1)
+    if hero1.health <= 0:
+        print('\n' + mage1.name, 'Pemenangnya!')
+        break
+    elif mage1.health <= 0:
+        print('\n' + hero1.name, 'Pemenangnya!')
+        break
